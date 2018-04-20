@@ -33,7 +33,7 @@ int main()
   uWS::Hub h;
 
   PID pid;
-  // Initialize the pid controller.
+  // Initialize the pid controller parameters.
   pid.Init(0.11, 0.001, 3.2);
 
   h.onMessage([&pid](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length, uWS::OpCode opCode) {

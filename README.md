@@ -72,19 +72,47 @@ communicate with the simulator exchanging JSON-formatted messages.
 
 INPUT: values provided by the simulator to the c++ program
 
-* ["sensor_measurement"] => the measurement that the simulator observed (either lidar or radar)
+* ["cte"] => the cross track error as reported by the simulator
+* ["speed"] => the speed of the vehicle as reported by the simulator
+* ["steering_angle"] => the steering angle as reported by the simulator
 
 
 OUTPUT: values provided by the c++ program to the simulator
 
-* ["estimate_x"] <= kalman filter estimated position x
-* ["estimate_y"] <= kalman filter estimated position y
-* ["rmse_x"]
-* ["rmse_y"]
-* ["rmse_vx"]
-* ["rmse_vy"]
+* ["steering_angle"] <= the steering command as computed by the PID controller
+* ["throttle"] <= set to a constant value of 0.3 in our experiments
 
-## Results
+## Discussion
+
+### PID Parameter Tuning
+
+The PID controller parameters were tuned manually, using the principles of the twiddle
+approach described in the training material.
+
+The following parameter values have successfully been used to complete a full circuit:
+
+* P = 0.11
+* I = 0.001
+* D = 3.2
+
+### Some Observations
+
+Before applying a more methodic approach in order to find working parameters I made
+some naive experiments to gain some practical insights on the effect of the parameters:
+
+* First I started by setting only the P parameter, and while it was somehow efficient at controlling
+  the vehicle there were major oscillations in the system, and the vehicle was out of control
+  by the first serious bend in the road.
+* In a second phase it was possible to somewhat control the oscillations using the D parameter.
+
+But in order to PID parameters that would allow to meet the spec it was necessary to get a more
+systematic approach.
+
+There are still at times during the circuit where some oscillations are observed, and despite
+my best effort I could not get rid of them all.
+
+
+### Results
 
 Here is a screenshot of the simulation results:
 
